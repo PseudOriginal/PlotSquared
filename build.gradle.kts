@@ -14,7 +14,6 @@ plugins {
 
     eclipse
     idea
-    id 'maven-publish'
 }
 
 var ver by extra("6.1.3")
@@ -165,11 +164,11 @@ allprojects {
 
         repositories {
             maven {
-              name = "OSSRH"
-              url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+              name = "GitHubPackages"
+              url = "https://maven.pkg.github.com/octocat/hello-world"
               credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
               }
             }
           }
