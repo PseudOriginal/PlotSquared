@@ -165,7 +165,7 @@ allprojects {
         repositories {
             maven {
               name = "GitHubPackages"
-              url = "https://maven.pkg.github.com/octocat/hello-world"
+              url = url.set("https://maven.pkg.github.com/octocat/hello-world")
               credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
