@@ -14,6 +14,7 @@ plugins {
 
     eclipse
     idea
+    id 'maven-publish'
 }
 
 var ver by extra("6.1.3")
@@ -163,32 +164,15 @@ allprojects {
         }
 
         repositories {
-            mavenLocal() // Install to own local repository
-
-            // Accept String? to not err if they're not present.
-            // Check that they both exist before adding the repo, such that
-            // `credentials` doesn't err if one is null.
-            // It's not pretty, but this way it can compile.
-            val nexusUsername: String? by project
-            val nexusPassword: String? by project
-            if (nexusUsername != null && nexusPassword != null) {
-                maven {
-                    val releasesRepositoryUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                    val snapshotRepositoryUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                    url = uri(
-                            if (version.toString().endsWith("-SNAPSHOT")) snapshotRepositoryUrl
-                            else releasesRepositoryUrl
-                    )
-
-                    credentials {
-                        username = nexusUsername
-                        password = nexusPassword
-                    }
-                }
-            } else {
-                logger.warn("No nexus repository is added; nexusUsername or nexusPassword is null.")
+            maven {
+              name = "OSSRH"
+              url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+              credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+              }
             }
-        }
+          }
     }
 
     tasks {
